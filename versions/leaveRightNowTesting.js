@@ -212,11 +212,10 @@ function isBlank(lastRow, data) {
         if (data[Jungle] == null || data[Jungle] == '' || data[Jungle] == undefined) { tempArray.push(false); }
         else { tempArray.push(true); }
     }
-    // console.log(tempArray);
     return tempArray;
 }
 function milestoneTitleCount(lastRow, dataMilestone) {
-    tempArray = [];
+    var tempArray = [];
     milestoneBlanks = isBlank(lastRow, dataMilestone);
     fs.writeFileSync('files/logMilestoneTitleCount.txt', milestoneBlanks)
     for (var Jungle = 0; Jungle < lastRow; Jungle++) {
@@ -226,7 +225,7 @@ function milestoneTitleCount(lastRow, dataMilestone) {
     return tempArray;
 }
 function milestoneTitle(data, lastRow) {
-    tempArray = [];
+    var tempArray = [];
     milestoneBlanks = isBlank(lastRow, data);
     for (var Jungle = 0; Jungle < lastRow; Jungle++) {
         if (milestoneBlanks[Jungle] == true) { tempArray.push(data[Jungle]); }
@@ -235,10 +234,11 @@ function milestoneTitle(data, lastRow) {
 }
 
 function getTitlesCountsProcess(lastRow, SubProcessItem) {
-    tempArray = [];
-    console.log(SubProcessItem.ColorProcess)
+    var tempArray = [];
+    console.log(SubProcessItem)
     for (let n = 0; n < lastRow; n++) {
-        if(SubProcessItem.ColorProcess[n] == '#d2ead9')
+        // console.log(SubProcessItem.ColorProcess[n], '\t', SubProcessItem.isProcessBlank[n], '\t', n)
+        if(SubProcessItem.ColorMilestone[n] == '#d2ead9')
         {
             tempArray.push(n);
         }
