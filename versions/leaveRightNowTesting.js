@@ -2,6 +2,7 @@ var axios = require('axios');
 var qs = require('qs');
 var fs = require('fs');
 const { isIPv4 } = require('net');
+const { runInThisContext } = require('vm');
 async function a() {
     var token1;
     var tempDataValueProcess;
@@ -137,7 +138,6 @@ async function a() {
             MilestoneTitleCount: milestoneTitleCount(lastRow, dataMilestone),
             MilestoneTitle: milestoneTitle(dataMilestone, lastRow)
         }
-        console.log(lastRow)
         getTitlesCountsProcess(lastRow, SubProcessItem)
         for (var Amazonka = 0; Amazonka <= SubProcessItem.MilestoneTitleCount.length; Amazonka++) {
 
@@ -236,12 +236,15 @@ function milestoneTitle(data, lastRow) {
 
 function getTitlesCountsProcess(lastRow, SubProcessItem) {
     tempArray = [];
+    console.log(SubProcessItem.ColorProcess)
     for (let n = 0; n < lastRow; n++) {
-        if (SubProcessItem.ColorProcess[n] == "#d3ead9"
-            && SubProcessItem.isProcessBlank[n] == true) { tempArray.push(n); }
-        else if (SubProcessItem.ColorProcess[n] == "#d3ead9"
-            && SubProcessItem.isProcessBlank[n] == false) { tempArray.push(n); }
+        if(SubProcessItem.ColorProcess[n] == '#d2ead9')
+        {
+            tempArray.push(n);
+        }
     }
+    // console.log(tempArray)
+    return tempArray;
 }
 // function milestoneName()
 // {
