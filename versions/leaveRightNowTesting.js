@@ -225,14 +225,12 @@ function milestoneTitleCount(lastRow, dataMilestone) {
     tempArray.push()
     return tempArray;
 }
-function milestoneTitle(dataMilestone, lastRow) {
+function milestoneTitle(data, lastRow) {
     tempArray = [];
-    milestoneBlanks = isBlank(lastRow, dataMilestone);
-    console.log(milestoneBlanks)
-    for (var Jungle = 0; Jungle < dataMilestone.length; Jungle++) {
-        if (milestoneBlanks[Jungle] == true) { tempArray.push(dataMilestone[Jungle]); }
+    milestoneBlanks = isBlank(lastRow, data);
+    for (var Jungle = 0; Jungle < lastRow; Jungle++) {
+        if (milestoneBlanks[Jungle] == true) { tempArray.push(data[Jungle]); }
     }
-    // console.log(tempArray);
     return tempArray;
 }
 
