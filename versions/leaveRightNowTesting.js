@@ -3,11 +3,12 @@ var qs = require('qs');
 var fs = require('fs');
 const { isIPv4 } = require('net');
 const { runInThisContext } = require('vm');
+a();
 async function a() {
     var token1;
     var tempDataValueProcess;
     var tempDataValueMilestone;
-    var colorValuesProcess = [];
+    var colorValuesProcess;
     var colorValuesMilestone;
     var dataMilestone;// Данные веха
     var dataProcess; // Данные Процесса
@@ -99,17 +100,17 @@ async function a() {
                             .then((response) => { dataUserDemand = response.data.values; })
                     })
                     .then(() => {
-                        axios.get(encodeURI(`${urlSheetColor}!I:I&access_token=${token}`))
-                            .then((response) => {
-                                tempDataValueProcess = response.data.sheets[0].data[0];
-                                colorValuesProcess = getBackground(tempDataValueProcess); //Цвет Процесса
-                            })
-                    })
-                    .then(() => {
                         axios.get(encodeURI(`${urlSheetColor}!A:A&access_token=${token}`))
                             .then((response) => {
                                 tempDataValueMilestone = response.data.sheets[0].data[0];
                                 colorValuesMilestone = getBackground(tempDataValueMilestone); //Цвет Вехов
+                            })
+                    })
+                    .then(() => {
+                        axios.get(encodeURI(`${urlSheetColor}!I:I&access_token=${token}`))
+                            .then((response) => {
+                                tempDataValueProcess = response.data.sheets[0].data[0];
+                                colorValuesProcess = getBackground(tempDataValueProcess); //Цвет Процесса
                                 resolve(lastRow = colorValuesMilestone.length);
                             })
                     })
@@ -138,50 +139,8 @@ async function a() {
             MilestoneTitleCount: milestoneTitleCount(lastRow, dataMilestone),
             MilestoneTitle: milestoneTitle(dataMilestone, lastRow)
         }
-        getTitlesCountsProcess(lastRow, SubProcessItem)
-        for (var Amazonka = 0; Amazonka <= SubProcessItem.MilestoneTitleCount.length; Amazonka++) {
-
-
-
-
-
-
-
-
-
-            // var CountForShape = 1;
-            // for (var Missisipi = SubProcessItem.MilestoneTitleCount[Amazonka];
-            //     Missisipi < SubProcessItem.MilestoneTitleCount[Amazonka + 1];
-            //     Missisipi++) {
-            //     if (SubProcessItem.ColorProcess[Missisipi] = '#ffffff'
-            //         && SubProcessItem.isProcessBlank[Missisipi] == true
-            //         && SubProcessItem.ColorProcess[Missisipi] != '#d3ead9') {
-            //         var DataPractice = SubProcessItem.Practice[Missisipi + 1];
-            //         var DataProvider = SubProcessItem.Provider[Missisipi + 1];
-            //         var DataResource = SubProcessItem.Resource[Missisipi + 1];
-            //         var DataProcess = SubProcessItem.Name[Missisipi + 1];
-            //         var DataProduct = SubProcessItem.Product[Missisipi + 1];
-            //         var DataUser = SubProcessItem.User[Missisipi + 1];
-            //         CountForShape++;
-            //     }
-            // }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        console.log(SubProcessItem)
+        // getTitlesCountsProcess(lastRow, SubProcessItem)
     })
 }
 function componentToHex(c) {
@@ -232,32 +191,15 @@ function milestoneTitle(data, lastRow) {
     }
     return tempArray;
 }
-
 function getTitlesCountsProcess(lastRow, SubProcessItem) {
     var tempArray = [];
-    console.log(SubProcessItem)
+    // console.log(SubProcessItem)
     for (let n = 0; n < lastRow; n++) {
         // console.log(SubProcessItem.ColorProcess[n], '\t', SubProcessItem.isProcessBlank[n], '\t', n)
-        if(SubProcessItem.ColorMilestone[n] == '#d2ead9')
-        {
+        if (SubProcessItem.ColorMilestone[n] == '#d9ead3') {
             tempArray.push(n);
         }
     }
     // console.log(tempArray)
     return tempArray;
 }
-// function milestoneName()
-// {
-//     var MilestoneName = [];
-//     for (var Jungle = 0; Jungle < LastRowMileStone; Jungle++) {
-//         /*Если ячейка непустая, то добавляем в массив MileStone.Item.ValuesMileStone содержимое данной ячейки 
-//         и также записываем номер ячейки в массив MilestoneCount
-//         */
-//         if (MileStoneItem.isMileStoneBlank[Jungle] == 'false') {
-//             MilestoneCount.push(Jungle);
-//             MilestoneName.push(MileStoneItem.ValuesMileStone[Jungle])
-//         }
-//     }
-//     return MilestoneName;
-// }
-a()
