@@ -139,8 +139,8 @@ async function a() {
             MilestoneTitleCount: milestoneTitleCount(lastRow, dataMilestone),
             MilestoneTitle: milestoneTitle(dataMilestone, lastRow)
         }
-        console.log(SubProcessItem)
-        // getTitlesCountsProcess(lastRow, SubProcessItem)
+        getTitlesCountsProcess(lastRow, SubProcessItem)
+        
     })
 }
 function componentToHex(c) {
@@ -180,7 +180,7 @@ function milestoneTitleCount(lastRow, dataMilestone) {
     for (var Jungle = 0; Jungle < lastRow; Jungle++) {
         if (milestoneBlanks[Jungle] == true) { tempArray.push(Jungle); }
     }
-    tempArray.push()
+    tempArray.push(lastRow)
     return tempArray;
 }
 function milestoneTitle(data, lastRow) {
@@ -193,13 +193,11 @@ function milestoneTitle(data, lastRow) {
 }
 function getTitlesCountsProcess(lastRow, SubProcessItem) {
     var tempArray = [];
-    // console.log(SubProcessItem)
     for (let n = 0; n < lastRow; n++) {
-        // console.log(SubProcessItem.ColorProcess[n], '\t', SubProcessItem.isProcessBlank[n], '\t', n)
-        if (SubProcessItem.ColorMilestone[n] == '#d9ead3') {
+        if (SubProcessItem.ColorProcess[n] == '#d9ead3') {
             tempArray.push(n);
         }
     }
-    // console.log(tempArray)
+    console.log(tempArray)
     return tempArray;
 }
