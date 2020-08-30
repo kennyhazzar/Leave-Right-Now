@@ -5,19 +5,18 @@ const { isIPv4 } = require('net');
 const { runInThisContext } = require('vm');
 a();
 async function a() {
-    var token1;
     var tempDataValueProcess;
     var tempDataValueMilestone;
     var colorValuesProcess;
     var colorValuesMilestone;
-    var dataMilestone;// Данные веха
-    var dataProcess; // Данные Процесса
-    var dataPractice; //Данные Практики
-    var dataProvider; //Данные Поставщика
-    var dataResource; //Данные Ресурсов
-    var dataResourceDemand; //Данные Требований по Ресурсам
-    var dataProduct; //Данные по Продуктам
-    var dataProductDemand; //Данные Требований по Продуктам
+    var dataMilestone;
+    var dataProcess; 
+    var dataPractice;
+    var dataProvider; 
+    var dataResource;
+    var dataResourceDemand;
+    var dataProduct;
+    var dataProductDemand;
     var dataUserDemand;
     var dataUser;
     var colorDataPractice;
@@ -140,10 +139,10 @@ async function a() {
             MilestoneTitle: milestoneTitle(dataMilestone, lastRow)
         }
         getTitlesCountsProcess(lastRow, SubProcessItem)
-        
+
         for (var Missisipi = MilestoneCount[Amazonka]; Missisipi < MilestoneCount[Amazonka + 1]; Missisipi++) {
             //Отправка одного веха и переход к следующему, описано выше
-            
+
         }
 
 
