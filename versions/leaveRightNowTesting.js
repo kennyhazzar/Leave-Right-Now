@@ -141,6 +141,16 @@ async function a() {
         }
         getTitlesCountsProcess(lastRow, SubProcessItem)
         
+        for (var Missisipi = MilestoneCount[Amazonka]; Missisipi < MilestoneCount[Amazonka + 1]; Missisipi++) {
+            //Отправка одного веха и переход к следующему, описано выше
+            
+        }
+
+
+
+
+
+
     })
 }
 function componentToHex(c) {
@@ -198,6 +208,5 @@ function getTitlesCountsProcess(lastRow, SubProcessItem) {
             tempArray.push(n);
         }
     }
-    console.log(tempArray)
     return tempArray;
 }
