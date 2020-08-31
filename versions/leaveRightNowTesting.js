@@ -10,9 +10,9 @@ async function a() {
     var colorValuesProcess;
     var colorValuesMilestone;
     var dataMilestone;
-    var dataProcess; 
+    var dataProcess;
     var dataPractice;
-    var dataProvider; 
+    var dataProvider;
     var dataResource;
     var dataResourceDemand;
     var dataProduct;
@@ -140,10 +140,10 @@ async function a() {
         }
         getTitlesCountsProcess(lastRow, SubProcessItem)
 
-        for (var Missisipi = MilestoneCount[Amazonka]; Missisipi < MilestoneCount[Amazonka + 1]; Missisipi++) {
-            //Отправка одного веха и переход к следующему, описано выше
+        // for (var Missisipi = MilestoneCount[Amazonka]; Missisipi < MilestoneCount[Amazonka + 1]; Missisipi++) {
+        //     //Отправка одного веха и переход к следующему, описано выше
 
-        }
+        // }
 
 
 
@@ -185,7 +185,6 @@ function isBlank(lastRow, data) {
 function milestoneTitleCount(lastRow, dataMilestone) {
     var tempArray = [];
     milestoneBlanks = isBlank(lastRow, dataMilestone);
-    fs.writeFileSync('files/logMilestoneTitleCount.txt', milestoneBlanks)
     for (var Jungle = 0; Jungle < lastRow; Jungle++) {
         if (milestoneBlanks[Jungle] == true) { tempArray.push(Jungle); }
     }
@@ -203,9 +202,7 @@ function milestoneTitle(data, lastRow) {
 function getTitlesCountsProcess(lastRow, SubProcessItem) {
     var tempArray = [];
     for (let n = 0; n < lastRow; n++) {
-        if (SubProcessItem.ColorProcess[n] == '#d9ead3') {
-            tempArray.push(n);
-        }
+        if (SubProcessItem.ColorProcess[n] == '#d9ead3') { tempArray.push(n); }
     }
     return tempArray;
 }
