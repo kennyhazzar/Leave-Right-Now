@@ -110,7 +110,7 @@ async function a() {
                             .then((response) => {
                                 tempDataValueProcess = response.data.sheets[0].data[0];
                                 colorValuesProcess = getBackground(tempDataValueProcess); //Цвет Процесса
-                                resolve(lastRow = colorValuesMilestone.length);
+                                resolve(lastRow = colorValuesProcess.length);
                             })
                     })
             })//Верхний аксиос
@@ -138,13 +138,17 @@ async function a() {
             MilestoneTitleCount: milestoneTitleCount(lastRow, dataMilestone),
             MilestoneTitle: milestoneTitle(dataMilestone, lastRow)
         }
-        getTitlesCountsProcess(lastRow, SubProcessItem)
-
-        // for (var Missisipi = MilestoneCount[Amazonka]; Missisipi < MilestoneCount[Amazonka + 1]; Missisipi++) {
-        //     //Отправка одного веха и переход к следующему, описано выше
-
-        // }
-
+        console.log(SubProcessItem.MilestoneTitleCount)
+        var ProcessTitleCount = getTitlesCountsProcess(lastRow, SubProcessItem)
+        for (var Amazonka = 0; Amazonka <= SubProcessItem.MilestoneTitleCount.length; Amazonka++) {
+            for (var Missisipi = SubProcessItem.MilestoneTitleCount[Amazonka]; Missisipi < SubProcessItem.MilestoneTitleCount[Amazonka + 1]; Missisipi++) {
+                //Отправка одного веха и переход к следующему, описано выше
+                n = 0;
+                for (var Araguaya = ProcessTitleCount[n]; Araguaya < SubProcessItem.MilestoneTitleCount[Amazonka + 1]; n++) {
+                    
+                }
+            }
+        }
 
 
 
@@ -204,5 +208,6 @@ function getTitlesCountsProcess(lastRow, SubProcessItem) {
     for (let n = 0; n < lastRow; n++) {
         if (SubProcessItem.ColorProcess[n] == '#d9ead3') { tempArray.push(n); }
     }
+    console.log(tempArray)
     return tempArray;
 }
