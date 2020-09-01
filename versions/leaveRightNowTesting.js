@@ -138,27 +138,23 @@ async function a() {
             MilestoneTitleCount: milestoneTitleCount(lastRow, dataMilestone),
             MilestoneTitle: milestoneTitle(dataMilestone, lastRow)
         }
-        console.log(SubProcessItem.MilestoneTitleCount)
         var ProcessTitleCount = getTitlesCountsProcess(lastRow, SubProcessItem)
-        for (var Amazonka = 0; Amazonka <= SubProcessItem.MilestoneTitleCount.length; Amazonka++) {
-            
+        var ProcessTitleCountStart = getTitlesCountsProcessOnlyStart(lastRow, SubProcessItem);
+        var ProcessTitleCountEnd = getTitlesCountsProcessOnlyEnd(lastRow, SubProcessItem);
 
-
-
-
-
-            // for (var Missisipi = SubProcessItem.MilestoneTitleCount[Amazonka]; Missisipi < SubProcessItem.MilestoneTitleCount[Amazonka + 1]; Missisipi++) {
-            //     //Отправка одного веха и переход к следующему, описано выше
-            //     n = 0;
-            //     for (var Araguaya = ProcessTitleCount[n]; Araguaya < SubProcessItem.MilestoneTitleCount[Amazonka + 1]; n++) {
-            //         for(var Baikal = ProcessTitleCount[n]; Baikal < ProcessTitleCount[Baikal + 1]; Baikal++)
-            //         {
-            //             console.log(SubProcessItem.Name[Baikal])
-            //         }
-            //         n++
-            //     }
-            // }
+        /* Start */
+        for (let x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++) {
+            for (let y = 0; y < ProcessTitleCount.length - 1; y + 2) {
+                for (let z = y; z < y + 1; z++) {
+                    console.log(SubProcessItem.Name[z])
+                }
+            }
         }
+
+
+
+
+
 
 
 
@@ -218,6 +214,21 @@ function getTitlesCountsProcess(lastRow, SubProcessItem) {
     for (let n = 0; n < lastRow; n++) {
         if (SubProcessItem.ColorProcess[n] == '#d9ead3') { tempArray.push(n); }
     }
-    console.log(tempArray)
+    return tempArray;
+}
+function getTitlesCountsProcessOnlyStart(lastRow, SubProcessItem) {
+    var tempArray = [];
+    for (let n = 0; n < lastRow; n++) {
+        if (SubProcessItem.ColorProcess[n] == '#d9ead3'
+            && SubProcessItem.isProcessBlank[n] == true) { tempArray.push(n) }
+    }
+    return tempArray;
+}
+function getTitlesCountsProcessOnlyEnd(lastRow, SubProcessItem) {
+    var tempArray = [];
+    for (let n = 0; n < lastRow; n++) {
+        if (SubProcessItem.ColorProcess[n] == '#d9ead3'
+            && SubProcessItem.isProcessBlank[n] == false) { tempArray.push(n) }
+    }
     return tempArray;
 }
