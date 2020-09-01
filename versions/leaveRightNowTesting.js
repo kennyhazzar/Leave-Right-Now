@@ -143,11 +143,21 @@ async function a() {
         var ProcessTitleCountEnd = getTitlesCountsProcessOnlyEnd(lastRow, SubProcessItem);
 
         /* Start */
-        for (let x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++) {
-            for (let y = 0; y < ProcessTitleCount.length - 1; y + 2) {
-                for (let z = y; z < y + 1; z++) {
-                    console.log(SubProcessItem.Name[z])
+        // console.log(SubProcessItem.MilestoneTitleCount.length - 1)
+        // console.log(ProcessTitleCount.length)
+        for (x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++) {
+            for (y = 0; y < ProcessTitleCount.length - 1; y = y + 2) {
+                if (ProcessTitleCount[y] >= SubProcessItem.MilestoneTitleCount[x]
+                    && ProcessTitleCount[y + 1] <= SubProcessItem.MilestoneTitleCount[x + 1]) {
+                    for (let z = ProcessTitleCount[y] + 1; z < ProcessTitleCount[y + 1]; z++) {
+                        console.log(SubProcessItem.Name[z], x, y, z)
+                    }
+
                 }
+
+
+
+
             }
         }
 
