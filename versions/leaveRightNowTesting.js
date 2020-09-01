@@ -139,25 +139,21 @@ async function a() {
             MilestoneTitle: milestoneTitle(dataMilestone, lastRow)
         }
         var ProcessTitleCount = getTitlesCountsProcess(lastRow, SubProcessItem)
-        var ProcessTitleCountStart = getTitlesCountsProcessOnlyStart(lastRow, SubProcessItem);
-        var ProcessTitleCountEnd = getTitlesCountsProcessOnlyEnd(lastRow, SubProcessItem);
+        var ProcessTitle = getTitlesProcess(lastRow, SubProcessItem);
+        SubProcessItem.MilestoneTitleCount.push(ProcessTitleCount[ProcessTitleCount.length - 1])
+        console.log(SubProcessItem.MilestoneTitleCount)
+        // var ProcessTitleCountEnd = getTitlesCountsProcessOnlyEnd(lastRow, SubProcessItem);
 
         /* Start */
-        // console.log(SubProcessItem.MilestoneTitleCount.length - 1)
-        // console.log(ProcessTitleCount.length)
+        
         for (x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++) {
             for (y = 0; y < ProcessTitleCount.length - 1; y = y + 2) {
                 if (ProcessTitleCount[y] >= SubProcessItem.MilestoneTitleCount[x]
                     && ProcessTitleCount[y + 1] <= SubProcessItem.MilestoneTitleCount[x + 1]) {
                     for (let z = ProcessTitleCount[y] + 1; z < ProcessTitleCount[y + 1]; z++) {
-                        console.log(SubProcessItem.Name[z], x, y, z)
+                        console.log(SubProcessItem.Name[z], x, y, z);
                     }
-
                 }
-
-
-
-
             }
         }
 
@@ -208,7 +204,6 @@ function milestoneTitleCount(lastRow, dataMilestone) {
     for (var Jungle = 0; Jungle < lastRow; Jungle++) {
         if (milestoneBlanks[Jungle] == true) { tempArray.push(Jungle); }
     }
-    tempArray.push(lastRow)
     return tempArray;
 }
 function milestoneTitle(data, lastRow) {
@@ -226,11 +221,11 @@ function getTitlesCountsProcess(lastRow, SubProcessItem) {
     }
     return tempArray;
 }
-function getTitlesCountsProcessOnlyStart(lastRow, SubProcessItem) {
+function getTitlesProcess(lastRow, SubProcessItem) {
     var tempArray = [];
     for (let n = 0; n < lastRow; n++) {
         if (SubProcessItem.ColorProcess[n] == '#d9ead3'
-            && SubProcessItem.isProcessBlank[n] == true) { tempArray.push(n) }
+            && SubProcessItem.isProcessBlank[n] == true) { tempArray.push(SubProcessItem.Name[n]) }
     }
     return tempArray;
 }
