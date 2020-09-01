@@ -141,13 +141,23 @@ async function a() {
         console.log(SubProcessItem.MilestoneTitleCount)
         var ProcessTitleCount = getTitlesCountsProcess(lastRow, SubProcessItem)
         for (var Amazonka = 0; Amazonka <= SubProcessItem.MilestoneTitleCount.length; Amazonka++) {
-            for (var Missisipi = SubProcessItem.MilestoneTitleCount[Amazonka]; Missisipi < SubProcessItem.MilestoneTitleCount[Amazonka + 1]; Missisipi++) {
-                //Отправка одного веха и переход к следующему, описано выше
-                n = 0;
-                for (var Araguaya = ProcessTitleCount[n]; Araguaya < SubProcessItem.MilestoneTitleCount[Amazonka + 1]; n++) {
-                    
-                }
-            }
+            
+
+
+
+
+
+            // for (var Missisipi = SubProcessItem.MilestoneTitleCount[Amazonka]; Missisipi < SubProcessItem.MilestoneTitleCount[Amazonka + 1]; Missisipi++) {
+            //     //Отправка одного веха и переход к следующему, описано выше
+            //     n = 0;
+            //     for (var Araguaya = ProcessTitleCount[n]; Araguaya < SubProcessItem.MilestoneTitleCount[Amazonka + 1]; n++) {
+            //         for(var Baikal = ProcessTitleCount[n]; Baikal < ProcessTitleCount[Baikal + 1]; Baikal++)
+            //         {
+            //             console.log(SubProcessItem.Name[Baikal])
+            //         }
+            //         n++
+            //     }
+            // }
         }
 
 
