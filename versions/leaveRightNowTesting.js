@@ -7,7 +7,7 @@ const { runInThisContext } = require('vm');
 a();
 async function a() {
     // 
-    var requestData =
+    var responseData =
     {
         tempDataValueProcess: [],
         tempDataValueMilestone: [],
@@ -22,7 +22,8 @@ async function a() {
         dataProduct: [],
         dataProductDemand: [],
         dataUserDemand: [],
-        dataUser: []
+        dataUser: [],
+        lastRow: null
     };
     //
     var toSendDataMilestone;
@@ -35,9 +36,7 @@ async function a() {
     var toSendDataProductDemand;
     var toSendDataUserDemand;
     var toSendDataUser;
-    var colorDataPractice;
-    var colorDataMilestone;
-    var lastRow;
+    // var lastRow;
     var urlSheetColor = 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI?includeGridData=true&ranges=SIPOC (для Miro)'
     var urlSheet = 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI/values/SIPOC (для Miro)';
     var urlColorSheet = 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI?includeGridData=true&ranges=SIPOC (для Miro)';
@@ -75,58 +74,58 @@ async function a() {
                 let urlDataUser = encodeURI(`${urlSheet}!M:M?access_token=${token}`)
                 let urlDataUserDemand = encodeURI(`${urlSheet}!L:L?access_token=${token}`)
                 axios.get(urlDataProcess)
-                    .then((response) => { requestData.dataProcess = response.data.values; })
+                    .then((response) => { responseData.dataProcess = response.data.values; })
                     .then(() => {
                         axios.get(urlDataMilestone)
-                            .then((response) => { requestData.dataMilestone = response.data.values; })
+                            .then((response) => { responseData.dataMilestone = response.data.values; })
                     })
                     .then(() => {
                         axios.get(urlDataPractice)
-                            .then((response) => { requestData.dataPractice = response.data.values; })
+                            .then((response) => { responseData.dataPractice = response.data.values; })
                     })
                     .then(() => {
                         axios.get(urlDataProvider)
-                            .then((response) => { requestData.dataProvider = response.data.values })
+                            .then((response) => { responseData.dataProvider = response.data.values })
 
                     })
                     .then(() => {
                         axios.get(urlDataResource)
-                            .then((response) => { requestData.dataResource = response.data.values; })
+                            .then((response) => { responseData.dataResource = response.data.values; })
                     })
                     .then(() => {
                         axios.get(urlDataResourceDemand)
-                            .then((response) => { requestData.dataResourceDemand = response.data.values; })
+                            .then((response) => { responseData.dataResourceDemand = response.data.values; })
                     })
                     .then(() => {
                         axios.get(urlDataProduct)
-                            .then((response) => { requestData.dataProduct = response.data.values; })
+                            .then((response) => { responseData.dataProduct = response.data.values; })
                     })
                     .then(() => {
                         axios.get(urlDataProductDemand)
-                            .then((response) => { requestData.dataProductDemand = response.data.values; })
+                            .then((response) => { responseData.dataProductDemand = response.data.values; })
                     })
                     .then(() => {
                         axios.get(urlDataUser)
-                            .then((response) => { requestData.dataUser = response.data.values; })
+                            .then((response) => { responseData.dataUser = response.data.values; })
                     })
                     .then(() => {
 
                         axios.get(urlDataUserDemand)
-                            .then((response) => { requestData.dataUserDemand = response.data.values; })
+                            .then((response) => { responseData.dataUserDemand = response.data.values; })
                     })
                     .then(() => {
                         axios.get(encodeURI(`${urlSheetColor}!A:A&access_token=${token}`))
                             .then((response) => {
                                 tempDataValueMilestone = response.data.sheets[0].data[0];
-                                requestData.colorValuesMilestone = getBackground(tempDataValueMilestone); //Цвет Вехов
+                                responseData.colorValuesMilestone = getBackground(tempDataValueMilestone); //Цвет Вехов
                             })
                     })
                     .then(() => {
                         axios.get(encodeURI(`${urlSheetColor}!I:I&access_token=${token}`))
                             .then((response) => {
                                 tempDataValueProcess = response.data.sheets[0].data[0];
-                                requestData.colorValuesProcess = getBackground(tempDataValueProcess); //Цвет Процесса
-                                resolve(lastRow = requestData.colorValuesProcess.length);
+                                responseData.colorValuesProcess = getBackground(tempDataValueProcess); //Цвет Процесса
+                                resolve(responseData.lastRow = responseData.colorValuesProcess.length);
                             })
                     })
             })//Верхний аксиос
@@ -138,25 +137,25 @@ async function a() {
     mainPromise.then(() => {
         var SubProcessItem =
         {
-            Name: requestData.dataProcess,
-            Milestone: requestData.dataMilestone,
-            Practice: requestData.dataPractice, //массив с содержимым всех ячеек соответствующего столбца
-            Provider: requestData.dataProvider, //массив с содержимым всех ячеек соответствующего столбца
-            Resource: requestData.dataResource, //массив с содержимым всех ячеек соответствующего столбца
-            ResourceDemand: requestData.dataResourceDemand, //массив с содержимым всех ячеек соответствующего столбца
-            Product: requestData.dataProduct, //массив с содержимым всех ячеек соответствующего столбца
-            UserDemand: requestData.dataUserDemand, //массив с содержимым всех ячеек соответствующего столбца
-            User: requestData.dataUser, //массив с содержимым всех ячеек соответствующего столбца
-            isMilestoneBlank: isBlank(lastRow, requestData.dataMilestone), //массив с булл содержимым пустая/непустая ячеек столбца
-            isProcessBlank: isBlank(lastRow, requestData.dataProcess),
-            ColorProcess: requestData.colorValuesProcess, //цвета процессов
-            ColorMilestone: requestData.colorValuesMilestone,
-            MilestoneTitleCount: milestoneTitleCount(lastRow, requestData.dataMilestone),
-            MilestoneTitle: milestoneTitle(requestData.dataMilestone, lastRow)
+            Name: responseData.dataProcess,
+            Milestone: responseData.dataMilestone,
+            Practice: responseData.dataPractice, //массив с содержимым всех ячеек соответствующего столбца
+            Provider: responseData.dataProvider, //массив с содержимым всех ячеек соответствующего столбца
+            Resource: responseData.dataResource, //массив с содержимым всех ячеек соответствующего столбца
+            ResourceDemand: responseData.dataResourceDemand, //массив с содержимым всех ячеек соответствующего столбца
+            Product: responseData.dataProduct, //массив с содержимым всех ячеек соответствующего столбца
+            UserDemand: responseData.dataUserDemand, //массив с содержимым всех ячеек соответствующего столбца
+            User: responseData.dataUser, //массив с содержимым всех ячеек соответствующего столбца
+            isMilestoneBlank: isBlank(responseData.lastRow, responseData.dataMilestone), //массив с булл содержимым пустая/непустая ячеек столбца
+            isProcessBlank: isBlank(responseData.lastRow, responseData.dataProcess),
+            ColorProcess: responseData.colorValuesProcess, //цвета процессов
+            ColorMilestone: responseData.colorValuesMilestone,
+            MilestoneTitleCount: milestoneTitleCount(responseData.lastRow, responseData.dataMilestone),
+            MilestoneTitle: milestoneTitle(responseData.dataMilestone, responseData.lastRow)
         }
-        var ProcessTitleCount = getTitlesCountsProcess(lastRow, SubProcessItem)
-        var ProcessTitle = getTitlesProcess(lastRow, SubProcessItem);
-        SubProcessItem.MilestoneTitleCount.push(ProcessTitleCount[ProcessTitleCount.length - 1])
+        var ProcessTitleCount = getTitlesCountsProcess(responseData.lastRow, SubProcessItem);
+        var ProcessTitle = getTitlesProcess(responseData.lastRow, SubProcessItem);
+        SubProcessItem.MilestoneTitleCount.push(ProcessTitleCount[ProcessTitleCount.length - 1]);
         console.log(SubProcessItem.MilestoneTitleCount)
         // var ProcessTitleCountEnd = getTitlesCountsProcessOnlyEnd(lastRow, SubProcessItem);
 
