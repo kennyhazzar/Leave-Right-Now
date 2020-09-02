@@ -3,10 +3,10 @@ var qs = require('qs');
 var fs = require('fs');
 const { isIPv4 } = require('net');
 const { runInThisContext } = require('vm');
-// var Miro = require('./files/MiroFunctions')
+// var Miro = require('./files/')
 var distance = {
     
-}
+};
 a();
 async function a() {
     // 
