@@ -4,6 +4,9 @@ var fs = require('fs');
 const { isIPv4 } = require('net');
 const { runInThisContext } = require('vm');
 // var Miro = require('./files/MiroFunctions')
+var distance = {
+    
+}
 a();
 async function a() {
     // 
@@ -26,17 +29,19 @@ async function a() {
         lastRow: null
     };
     //
-    var toSendDataMilestone;
-    var toSendDataProcess;
-    var toSendDataPractice;
-    var toSendDataProvider;
-    var toSendDataResource;
-    var toSendDataResourceDemand;
-    var toSendDataProduct;
-    var toSendDataProductDemand;
-    var toSendDataUserDemand;
-    var toSendDataUser;
-    // var lastRow;
+    var requestData =
+    {
+        toSendDataMilestone: undefined,
+        toSendDataProcess: undefined,
+        toSendDataPractice: undefined,
+        toSendDataProvider: undefined,
+        toSendDataResource: undefined,
+        toSendDataResourceDemand: undefined,
+        toSendDataProduct: undefined,
+        toSendDataProductDemand: undefined,
+        toSendDataUserDemand: undefined,
+        toSendDataUser: undefined
+    }
     var urlSheetColor = 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI?includeGridData=true&ranges=SIPOC (для Miro)'
     var urlSheet = 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI/values/SIPOC (для Miro)';
     var urlColorSheet = 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI?includeGridData=true&ranges=SIPOC (для Miro)';
@@ -163,7 +168,8 @@ async function a() {
 
         for (x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++)//Перебор первого массива с титлами Вехов
         {
-            toSendDataMilestone = SubProcessItem.MilestoneTitle[x];
+            requestData.toSendDataMilestone = SubProcessItem.MilestoneTitle[x];
+            console.log(requestData.toSendDataMilestone)
             var CountForShape = 1;
             for (y = 0; y < ProcessTitleCount.length - 1; y = y + 2) //Перебор второго массива с титлами Процесса
             {
@@ -172,7 +178,7 @@ async function a() {
                     for (let z = ProcessTitleCount[y] + 1; z < ProcessTitleCount[y + 1]; z++) //Перебор одного блока массива
                     {
                         if (SubProcessItem.isProcessBlank[z] != null || SubProcessItem.isProcessBlank[z] != undefined) {
-                            console.log(SubProcessItem.Name[z], x, y, z);
+                            // console.log(SubProcessItem.Name[z], x, y, z);
                             CountForShape++;
                         }
                     }
