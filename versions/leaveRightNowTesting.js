@@ -3,6 +3,7 @@ var qs = require('qs');
 var fs = require('fs');
 const { isIPv4 } = require('net');
 const { runInThisContext } = require('vm');
+// var Miro = require('./files/MiroFunctions')
 a();
 async function a() {
     var tempDataValueProcess;
@@ -19,6 +20,16 @@ async function a() {
     var dataProductDemand;
     var dataUserDemand;
     var dataUser;
+    var toSendDataMilestone;
+    var toSendDataProcess;
+    var toSendDataPractice;
+    var toSendDataProvider;
+    var toSendDataResource;
+    var toSendDataResourceDemand;
+    var toSendDataProduct;
+    var toSendDataProductDemand;
+    var toSendDataUserDemand;
+    var toSendDataUser;
     var colorDataPractice;
     var colorDataMilestone;
     var lastRow;
@@ -145,13 +156,21 @@ async function a() {
         // var ProcessTitleCountEnd = getTitlesCountsProcessOnlyEnd(lastRow, SubProcessItem);
 
         /* Start */
-        
-        for (x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++) {
-            for (y = 0; y < ProcessTitleCount.length - 1; y = y + 2) {
+
+        for (x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++)//Перебор первого массива с титлами Вехов
+        {
+            toSendDataMilestone = SubProcessItem.MilestoneTitle[x];
+            var CountForShape = 1;
+            for (y = 0; y < ProcessTitleCount.length - 1; y = y + 2) //Перебор второго массива с титлами Процесса
+            {
                 if (ProcessTitleCount[y] >= SubProcessItem.MilestoneTitleCount[x]
                     && ProcessTitleCount[y + 1] <= SubProcessItem.MilestoneTitleCount[x + 1]) {
-                    for (let z = ProcessTitleCount[y] + 1; z < ProcessTitleCount[y + 1]; z++) {
-                        console.log(SubProcessItem.Name[z], x, y, z);
+                    for (let z = ProcessTitleCount[y] + 1; z < ProcessTitleCount[y + 1]; z++) //Перебор одного блока массива
+                    {
+                        if (SubProcessItem.isProcessBlank[z] != null || SubProcessItem.isProcessBlank[z] != undefined) {
+                            console.log(SubProcessItem.Name[z], x, y, z);
+                            CountForShape++;
+                        }
                     }
                 }
             }
