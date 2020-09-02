@@ -4,12 +4,10 @@ var fs = require('fs');
 const { isIPv4 } = require('net');
 const { runInThisContext } = require('vm');
 // var Miro = require('./files/')
-var distance = {
-    
-};
+var miro = require('./files/miroVariables')
 a();
 async function a() {
-    // 
+    //\\
     var responseData =
     {
         tempDataValueProcess: [],
@@ -28,7 +26,7 @@ async function a() {
         dataUser: [],
         lastRow: null
     };
-    //
+    //\\
     var requestData =
     {
         toSendDataMilestone: undefined,
