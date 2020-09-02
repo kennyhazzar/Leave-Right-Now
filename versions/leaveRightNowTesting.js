@@ -1,9 +1,8 @@
 var axios = require('axios');
 var qs = require('qs');
 var fs = require('fs');
-var googleFuncStructure = require('./files/someFunc.js');
-// const { isIPv4 } = require('net');
-// const { runInThisContext } = require('vm');
+const { isIPv4 } = require('net');
+const { runInThisContext } = require('vm');
 a();
 async function a() {
     var tempDataValueProcess;
@@ -103,14 +102,14 @@ async function a() {
                         axios.get(encodeURI(`${urlSheetColor}!A:A&access_token=${token}`))
                             .then((response) => {
                                 tempDataValueMilestone = response.data.sheets[0].data[0];
-                                colorValuesMilestone = googleFuncStructure.getBackground(tempDataValueMilestone); //Цвет Вехов
+                                colorValuesMilestone = getBackground(tempDataValueMilestone); //Цвет Вехов
                             })
                     })
                     .then(() => {
                         axios.get(encodeURI(`${urlSheetColor}!I:I&access_token=${token}`))
                             .then((response) => {
                                 tempDataValueProcess = response.data.sheets[0].data[0];
-                                colorValuesProcess = googleFuncStructure.getBackground(tempDataValueProcess); //Цвет Процесса
+                                colorValuesProcess = getBackground(tempDataValueProcess); //Цвет Процесса
                                 resolve(lastRow = colorValuesProcess.length);
                             })
                     })
@@ -132,21 +131,21 @@ async function a() {
             Product: dataProduct, //массив с содержимым всех ячеек соответствующего столбца
             UserDemand: dataUserDemand, //массив с содержимым всех ячеек соответствующего столбца
             User: dataUser, //массив с содержимым всех ячеек соответствующего столбца
-            isMilestoneBlank: googleFuncStructure.isBlank(lastRow, dataMilestone), //массив с булл содержимым пустая/непустая ячеек столбца
-            isProcessBlank: googleFuncStructure.isBlank(lastRow, dataProcess),
+            isMilestoneBlank: isBlank(lastRow, dataMilestone), //массив с булл содержимым пустая/непустая ячеек столбца
+            isProcessBlank: isBlank(lastRow, dataProcess),
             ColorProcess: colorValuesProcess, //цвета процессов
             ColorMilestone: colorValuesMilestone,
-            MilestoneTitleCount: googleFuncStructure.milestoneTitleCount(lastRow, dataMilestone),
-            MilestoneTitle: googleFuncStructure.milestoneTitle(dataMilestone, lastRow)
+            MilestoneTitleCount: milestoneTitleCount(lastRow, dataMilestone),
+            MilestoneTitle: milestoneTitle(dataMilestone, lastRow)
         }
-        var ProcessTitleCount = googleFuncStructure.getTitlesCountsProcess(lastRow, SubProcessItem)
-        var ProcessTitle = googleFuncStructure.getTitlesProcess(lastRow, SubProcessItem);
+        var ProcessTitleCount = getTitlesCountsProcess(lastRow, SubProcessItem)
+        var ProcessTitle = getTitlesProcess(lastRow, SubProcessItem);
         SubProcessItem.MilestoneTitleCount.push(ProcessTitleCount[ProcessTitleCount.length - 1])
-        console.log('asdf', SubProcessItem.MilestoneTitleCount)
+        console.log(SubProcessItem.MilestoneTitleCount)
         // var ProcessTitleCountEnd = getTitlesCountsProcessOnlyEnd(lastRow, SubProcessItem);
 
         /* Start */
-
+        
         for (x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++) {
             for (y = 0; y < ProcessTitleCount.length - 1; y = y + 2) {
                 if (ProcessTitleCount[y] >= SubProcessItem.MilestoneTitleCount[x]
@@ -159,6 +158,82 @@ async function a() {
         }
 
 
+
+
+
+
+
+
+
+
     })
 }
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+function getBackground(tempData) {
+    var tempArray = [];
+    for (let n = 0; n <= tempData.rowData.length; n++) {
+        try {
+            r = Math.floor(tempData.rowData[n].values[0].userEnteredFormat.backgroundColor.red * 255);
+            g = Math.floor(tempData.rowData[n].values[0].userEnteredFormat.backgroundColor.green * 255);
+            b = Math.floor(tempData.rowData[n].values[0].userEnteredFormat.backgroundColor.blue * 255);
+            if (rgbToHex(r, g, b) == '#NaNNaNNaN') { tempArray.push('#000000') }
+            else { tempArray.push(rgbToHex(r, g, b)); }
+        }
+        catch (error) { tempArray.push('#ffffff'); }
+    }
+    return tempArray;
+}
+function isBlank(lastRow, data) {
+    var tempArray = [];
 
+    for (var Jungle = 0; Jungle < lastRow; Jungle++) {
+        if (data[Jungle] == null || data[Jungle] == '' || data[Jungle] == undefined) { tempArray.push(false); }
+        else { tempArray.push(true); }
+    }
+    return tempArray;
+}
+function milestoneTitleCount(lastRow, dataMilestone) {
+    var tempArray = [];
+    milestoneBlanks = isBlank(lastRow, dataMilestone);
+    for (var Jungle = 0; Jungle < lastRow; Jungle++) {
+        if (milestoneBlanks[Jungle] == true) { tempArray.push(Jungle); }
+    }
+    return tempArray;
+}
+function milestoneTitle(data, lastRow) {
+    var tempArray = [];
+    milestoneBlanks = isBlank(lastRow, data);
+    for (var Jungle = 0; Jungle < lastRow; Jungle++) {
+        if (milestoneBlanks[Jungle] == true) { tempArray.push(data[Jungle]); }
+    }
+    return tempArray;
+}
+function getTitlesCountsProcess(lastRow, SubProcessItem) {
+    var tempArray = [];
+    for (let n = 0; n < lastRow; n++) {
+        if (SubProcessItem.ColorProcess[n] == '#d9ead3') { tempArray.push(n); }
+    }
+    return tempArray;
+}
+function getTitlesProcess(lastRow, SubProcessItem) {
+    var tempArray = [];
+    for (let n = 0; n < lastRow; n++) {
+        if (SubProcessItem.ColorProcess[n] == '#d9ead3'
+            && SubProcessItem.isProcessBlank[n] == true) { tempArray.push(SubProcessItem.Name[n]) }
+    }
+    return tempArray;
+}
+function getTitlesCountsProcessOnlyEnd(lastRow, SubProcessItem) {
+    var tempArray = [];
+    for (let n = 0; n < lastRow; n++) {
+        if (SubProcessItem.ColorProcess[n] == '#d9ead3'
+            && SubProcessItem.isProcessBlank[n] == false) { tempArray.push(n) }
+    }
+    return tempArray;
+}
