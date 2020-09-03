@@ -1,8 +1,9 @@
+var mdata = require('./miroVariables');
 exports.DataBody = {
     Shape: {
         "type": "shape",
-        "x": idFirstShape[0] + CheckpointDistance * CountForShape,
-        "y": idFirstShape[1],
+        "x": mdata.distance.fshape.x + CheckpointDistance * CountForShape,
+        "y": mdata.distance.fshape.y,
         "width": 34,
         "rotation": 0.0,
         "height": 36,
@@ -34,7 +35,7 @@ exports.DataBody = {
             "textAlign": "center",
             "textColor": "#1a1a1a"
         },
-        "text": `<p><span style=\"background-color:transparent\">${DataPractice}</span></p>`
+        "text": `<p><span style=\"background-color:transparent\">${requestData.toSendDataPractice}</span></p>`
     },
     Provider: {
         "type": "text",
@@ -53,7 +54,7 @@ exports.DataBody = {
             "textAlign": "center",
             "textColor": "#1a1a1a"
         },
-        "text": `<p><span style=\"background-color:transparent\">${DataProvider}</span></p>`
+        "text": `<p><span style=\"background-color:transparent\">${requestData.toSendDataProvider}</span></p>`
     },
     Resource: {
         "type": "text",
@@ -71,7 +72,7 @@ exports.DataBody = {
             "textAlign": "center",
             "textColor": "#1a1a1a"
         },
-        "text": `<p><span style=\"background-color:transparent\">${DataResource}</span></p>`
+        "text": `<p><span style=\"background-color:transparent\">${requestData.toSendDataResource}</span></p>`
     },
     Process: {
         "type": "text",
@@ -89,7 +90,7 @@ exports.DataBody = {
             "textAlign": "center",
             "textColor": "#ffffff"
         },
-        "text": `<p><span style=\"background-color:transparent\">${DataProcess}</span></p>`
+        "text": `<p><span style=\"background-color:transparent\">${requestData.toSendDataProcess}</span></p>`
     },
     Product: {
         "type": "text",
@@ -107,7 +108,7 @@ exports.DataBody = {
             "textAlign": "center",
             "textColor": "#1a1a1a"
         },
-        "text": `<p><span style=\"background-color:transparent\">${DataProduct}</span></p>`
+        "text": `<p><span style=\"background-color:transparent\">${requestData.toSendDataProduct}</span></p>`
     },
     User: {
         "type": "text",
@@ -125,6 +126,6 @@ exports.DataBody = {
             "textAlign": "center",
             "textColor": "#ffffff"
         },
-        "text": `<p><span style=\"background-color:transparent\">${DataUser}</span></p>`
+        "text": `<p><span style=\"background-color:transparent\">${requestData.toSendDataUser}</span></p>`
     }
 }

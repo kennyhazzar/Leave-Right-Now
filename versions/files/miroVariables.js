@@ -1,3 +1,4 @@
+var mbody = require('./miroBody')
 exports.distance = {
     checkpoint: 1000, //x
     widget: 120, //y

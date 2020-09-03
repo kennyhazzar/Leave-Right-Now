@@ -5,6 +5,31 @@ const { isIPv4 } = require('net');
 const { runInThisContext } = require('vm');
 // var Miro = require('./files/')
 var miro = require('./files/miroVariables')
+//цвета для создания виджетов в Миро
+var Color = {
+    //в HEX коде:
+    HEX:
+    {
+        Practice: '#8fd14f',
+        Provider: '#e0ff66',
+        Resource: '#2d9bf0',
+        Process: '#000000',
+        Product: '#fac710',
+        User: '#9510ac',
+        DeadGreen: '#d9ead3',
+        CheckPointShape: '#414bb2'
+    },
+    //в виде RED GREEN BLUE:
+    RGB:
+    {
+        Practice: '143, 209, 79',
+        Provider: '224, 255, 102',
+        Resource: '45, 155, 240',
+        Process: '0, 0, 0',
+        Product: '250, 199, 16',
+        User: '149, 16, 172'
+    }
+};
 a();
 async function a() {
     //\\
@@ -170,8 +195,6 @@ async function a() {
         for (x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++)//Перебор первого массива с титлами Вехов
         {
             requestData.toSendDataMilestone = SubProcessItem.MilestoneTitle[x];
-            console.log(requestData.toSendDataMilestone)
-            var CountForShape = 1;
             for (y = 0; y < ProcessTitleCount.length - 1; y = y + 2) //Перебор второго массива с титлами Процесса
             {
                 if (ProcessTitleCount[y] >= SubProcessItem.MilestoneTitleCount[x]
@@ -180,7 +203,7 @@ async function a() {
                     {
                         if (SubProcessItem.isProcessBlank[z] != null || SubProcessItem.isProcessBlank[z] != undefined) {
                             // console.log(SubProcessItem.Name[z], x, y, z);
-                            CountForShape++;
+
                         }
                     }
                 }
