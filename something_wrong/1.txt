@@ -4,11 +4,32 @@ var fs = require('fs');
 const { isIPv4 } = require('net');
 const { runInThisContext } = require('vm');
 // var Miro = require('./files/')
-var vmiro = require('./files/miroVariables.js');
-var bmiro = require('./files/miroBody.js');
-const { resolve } = require('path');
+var miro = require('./files/miroVariables')
 //цвета для создания виджетов в Миро
-
+var Color = {
+    //в HEX коде:
+    HEX:
+    {
+        Practice: '#8fd14f',
+        Provider: '#e0ff66',
+        Resource: '#2d9bf0',
+        Process: '#000000',
+        Product: '#fac710',
+        User: '#9510ac',
+        DeadGreen: '#d9ead3',
+        CheckPointShape: '#414bb2'
+    },
+    //в виде RED GREEN BLUE:
+    RGB:
+    {
+        Practice: '143, 209, 79',
+        Provider: '224, 255, 102',
+        Resource: '45, 155, 240',
+        Process: '0, 0, 0',
+        Product: '250, 199, 16',
+        User: '149, 16, 172'
+    }
+};
 a();
 async function a() {
     //\\
@@ -51,7 +72,7 @@ async function a() {
         google_refresh_token: '1//0c-HAMQqviQPXCgYIARAAGAwSNwF-L9IrxwXh5A9PWgDu8gBYxVkMuGnpPz9MD-d0PgUyLf5qRnncSd-fTqYrvjFuIjzT8MxEYk0',
         urlToken: 'https://oauth2.googleapis.com/token'
     }
-    var murl = 'https://api.miro.com/v1/boards/o9J_kp5pAx8=/widgets/';//ссылка для запросов к Миро
+
     var data = qs.stringify({
         'client_id': '499089821174-g49og4ec559f1knirmjntgdedo7mjjh7.apps.googleusercontent.com',
         'client_secret': 't17CQXdWsPmvRznO6NRN2W4g',
@@ -68,33 +89,6 @@ async function a() {
         },
         data: data
     };
-    var mconfig =
-    {
-        shape: {
-            method: 'post',
-            url: murl,
-            headers: { 'authorization': `${vmiro.token}` },
-            data: bmiro.DataBody.Shape
-        },
-        user: {
-            method: 'post',
-            url: murl,
-            headers: { 'authorization': `${vmiro.token}` },
-            data: bmiro.DataBody.User
-        },
-        product: {
-            method: 'post',
-            url: murl,
-            headers: { 'authorization': `${vmiro.token}` },
-            data: bmiro.DataBody.Product
-        },
-        process: {
-            method: 'post',
-            url: murl,
-            headers: { 'authorization': `${vmiro.token}` },
-            data: bmiro.DataBody.Process
-        }
-    }
     //Создание промиса для асинхронного выполнения кода
     var mainPromise = new Promise((resolve, reject) => {
         axios(token_config)//POST-запрос на получение токена для последующих GET-запросов
@@ -191,15 +185,13 @@ async function a() {
             MilestoneTitle: milestoneTitle(responseData.dataMilestone, responseData.lastRow)
         }
         var ProcessTitleCount = getTitlesCountsProcess(responseData.lastRow, SubProcessItem);
-        // var ProcessTitle = getTitlesProcess(responseData.lastRow, SubProcessItem);
+        var ProcessTitle = getTitlesProcess(responseData.lastRow, SubProcessItem);
         SubProcessItem.MilestoneTitleCount.push(ProcessTitleCount[ProcessTitleCount.length - 1]);
         console.log(SubProcessItem.MilestoneTitleCount)
         // var ProcessTitleCountEnd = getTitlesCountsProcessOnlyEnd(lastRow, SubProcessItem);
 
         /* Start */
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
+
         for (x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++)//Перебор первого массива с титлами Вехов
         {
             requestData.toSendDataMilestone = SubProcessItem.MilestoneTitle[x];
@@ -211,11 +203,7 @@ async function a() {
                     {
                         if (SubProcessItem.isProcessBlank[z] != null || SubProcessItem.isProcessBlank[z] != undefined) {
                             // console.log(SubProcessItem.Name[z], x, y, z);
-                            function foo(){axios(mconfig.shape)
-                                .then((response) => {
-                                    vmiro.countForShape++
-                                })}
-                            setTimeout(foo, 2000)
+
                         }
                     }
                 }

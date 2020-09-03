@@ -1,17 +1,18 @@
-var mdata = require('./miroVariables');
+var mvar = require('./miroVariables');
+// var rvar = require('./versions/leaveRightNowTesting')
 exports.DataBody = {
     Shape: {
         "type": "shape",
-        "x": mdata.distance.fshape.x + CheckpointDistance * CountForShape,
-        "y": mdata.distance.fshape.y,
+        "x": mvar.distance.fshape.x + mvar.distance.checkpoint * mvar.countForShape,
+        "y": mvar.distance.fshape.y,
         "width": 34,
         "rotation": 0.0,
         "height": 36,
         "text": "",
         "style": {
-            "backgroundColor": Color.HEX.CheckPointShape,
+            "backgroundColor": mvar.Color.HEX.CheckPointShape,
             "backgroundOpacity": 1.0,
-            "borderColor": Color.HEX.CheckPointShape,
+            "borderColor": mvar.Color.HEX.CheckPointShape,
             "borderOpacity": 1.0,
             "borderStyle": "normal",
             "borderWidth": 4,
@@ -21,11 +22,11 @@ exports.DataBody = {
     },
     Practice: {
         "type": "text",
-        "x": idFirstShape[0] + CheckpointDistance * CountForShape,
-        "y": idFirstShape[1] + WidgetDistance,
+        "x": mvar.distance.fshape.x + mvar.distance.checkpoint,
+        "y": mvar.distance.fshape.y + mvar.distance.widget,
         "width": 98.69999999999999,
         "style": {
-            "backgroundColor": Color.HEX.Practice,
+            "backgroundColor": mvar.Color.HEX.Practice,
             "backgroundOpacity": 1.0,
             "borderOpacity": 1.0,
             "borderStyle": "normal",
@@ -35,16 +36,18 @@ exports.DataBody = {
             "textAlign": "center",
             "textColor": "#1a1a1a"
         },
-        "text": `<p><span style=\"background-color:transparent\">${requestData.toSendDataPractice}</span></p>`
+        // "text": `<p><span style=\"background-color:transparent\">${rvar.requestData.toSendDataPractice}</span></p>`
+                "text": `<p><span style=\"background-color:transparent\">undefined</span></p>`
+        
     },
     Provider: {
         "type": "text",
-        "x": idFirstShape[0] + CheckpointDistance * CountForShape,
-        "y": idFirstShape[1] - WidgetDistance * 3,
+        "x": mvar.distance.fshape.x + mvar.distance.checkpoint,
+        "y": mvar.distance.fshape.y - mvar.distance.widget * 3,
         "width": 98.69999999999999,
         "style": {
             // fef445 yellow if lime is bad
-            "backgroundColor": Color.HEX.Provider,
+            "backgroundColor": mvar.Color.HEX.Provider,
             "backgroundOpacity": 1.0,
             "borderOpacity": 1.0,
             "borderStyle": "normal",
@@ -54,15 +57,16 @@ exports.DataBody = {
             "textAlign": "center",
             "textColor": "#1a1a1a"
         },
-        "text": `<p><span style=\"background-color:transparent\">${requestData.toSendDataProvider}</span></p>`
+        // "text": `<p><span style=\"background-color:transparent\">${rvar.requestData.toSendDataProvider}</span></p>`
+                "text": `<p><span style=\"background-color:transparent\">undefined</span></p>`
     },
     Resource: {
         "type": "text",
-        "x": idFirstShape[0] + CheckpointDistance * CountForShape,
-        "y": idFirstShape[1] - WidgetDistance * 2,
+        "x": mvar.distance.fshape.x + mvar.distance.checkpoint,
+        "y": mvar.distance.fshape.y - mvar.distance.widget * 2,
         "width": 98.69999999999999,
         "style": {
-            "backgroundColor": Color.HEX.Resource,
+            "backgroundColor": mvar.Color.HEX.Resource,
             "backgroundOpacity": 1.0,
             "borderOpacity": 1.0,
             "borderStyle": "normal",
@@ -72,15 +76,16 @@ exports.DataBody = {
             "textAlign": "center",
             "textColor": "#1a1a1a"
         },
-        "text": `<p><span style=\"background-color:transparent\">${requestData.toSendDataResource}</span></p>`
+        // "text": `<p><span style=\"background-color:transparent\">${rvar.requestData.toSendDataResource}</span></p>`
+                "text": `<p><span style=\"background-color:transparent\">undefined</span></p>`
     },
     Process: {
         "type": "text",
-        "x": idFirstShape[0] + CheckpointDistance * CountForShape,
-        "y": idFirstShape[1] - WidgetDistance,
+        "x": mvar.distance.fshape.x + mvar.distance.checkpoint,
+        "y": mvar.distance.fshape.y - mvar.distance.widget,
         "width": 98.69999999999999,
         "style": {
-            "backgroundColor": Color.HEX.Process,
+            "backgroundColor": mvar.Color.HEX.Process,
             "backgroundOpacity": 1.0,
             "borderOpacity": 1.0,
             "borderStyle": "normal",
@@ -90,15 +95,16 @@ exports.DataBody = {
             "textAlign": "center",
             "textColor": "#ffffff"
         },
-        "text": `<p><span style=\"background-color:transparent\">${requestData.toSendDataProcess}</span></p>`
+        // "text": `<p><span style=\"background-color:transparent\">${rvar.requestData.toSendDataProcess}</span></p>`
+                "text": `<p><span style=\"background-color:transparent\">undefined</span></p>`
     },
     Product: {
         "type": "text",
-        "x": idFirstShape[0] + CheckpointDistance * CountForShape,
-        "y": idFirstShape[1] + WidgetDistance * 2,
+        "x": mvar.distance.fshape.x + mvar.distance.checkpoint,
+        "y": mvar.distance.fshape.y + mvar.distance.widget * 2,
         "width": 98.69999999999999,
         "style": {
-            "backgroundColor": Color.HEX.Product,
+            "backgroundColor": mvar.Color.HEX.Product,
             "backgroundOpacity": 1.0,
             "borderOpacity": 1.0,
             "borderStyle": "normal",
@@ -108,15 +114,16 @@ exports.DataBody = {
             "textAlign": "center",
             "textColor": "#1a1a1a"
         },
-        "text": `<p><span style=\"background-color:transparent\">${requestData.toSendDataProduct}</span></p>`
+        // "text": `<p><span style=\"background-color:transparent\">${rvar.requestData.toSendDataProduct}</span></p>`
+                "text": `<p><span style=\"background-color:transparent\">undefined</span></p>`
     },
     User: {
         "type": "text",
-        "x": idFirstShape[0] + CheckpointDistance * CountForShape,
-        "y": idFirstShape[1] + WidgetDistance * 3,
+        "x": mvar.distance.fshape.x + mvar.distance.checkpoint,
+        "y": mvar.distance.fshape.y + mvar.distance.widget * 3,
         "width": 98.69999999999999,
         "style": {
-            "backgroundColor": Color.HEX.User,
+            "backgroundColor": mvar.Color.HEX.User,
             "backgroundOpacity": 1.0,
             "borderOpacity": 1.0,
             "borderStyle": "normal",
@@ -126,6 +133,7 @@ exports.DataBody = {
             "textAlign": "center",
             "textColor": "#ffffff"
         },
-        "text": `<p><span style=\"background-color:transparent\">${requestData.toSendDataUser}</span></p>`
+        // "text": `<p><span style=\"background-color:transparent\">${rvar.requestData.toSendDataUser}</span></p>`
+                "text": `<p><span style=\"background-color:transparent\">undefined</span></p>`
     }
 }
