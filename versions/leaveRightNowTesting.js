@@ -40,21 +40,24 @@ async function a() {
         toSendDataUserDemand: undefined,
         toSendDataUser: undefined
     }
-    var urlSheetColor = 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI?includeGridData=true&ranges=SIPOC (для Miro)'
-    var urlSheet = 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI/values/SIPOC (для Miro)';
-    var urlColorSheet = 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI?includeGridData=true&ranges=SIPOC (для Miro)';
-    var google_refresh_token = '1//0c-HAMQqviQPXCgYIARAAGAwSNwF-L9IrxwXh5A9PWgDu8gBYxVkMuGnpPz9MD-d0PgUyLf5qRnncSd-fTqYrvjFuIjzT8MxEYk0';
-    var urlToken = 'https://oauth2.googleapis.com/token';
+    var rg = //request Google
+    {
+        urlSheetColor: 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI?includeGridData=true&ranges=SIPOC (для Miro)',
+        urlSheet: 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI/values/SIPOC (для Miro)',
+        google_refresh_token: '1//0c-HAMQqviQPXCgYIARAAGAwSNwF-L9IrxwXh5A9PWgDu8gBYxVkMuGnpPz9MD-d0PgUyLf5qRnncSd-fTqYrvjFuIjzT8MxEYk0',
+        urlToken: 'https://oauth2.googleapis.com/token'
+    }
+
     var data = qs.stringify({
         'client_id': '499089821174-g49og4ec559f1knirmjntgdedo7mjjh7.apps.googleusercontent.com',
         'client_secret': 't17CQXdWsPmvRznO6NRN2W4g',
         'grant_type': 'refresh_token',
-        'refresh_token': `${google_refresh_token}`
+        'refresh_token': `${rg.google_refresh_token}`
     });
 
     var token_config = {
         method: 'post',
-        url: urlToken,
+        url: rg.urlToken,
         headers: {
             'charset': 'UTF-8',
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -66,16 +69,16 @@ async function a() {
         axios(token_config)//POST-запрос на получение токена для последующих GET-запросов
             .then((response) => {
                 let token = response.data.access_token; //Получение токена в переменную
-                let urlDataMilestone = encodeURI(`${urlSheet}!A:A?access_token=${token}`);
-                let urlDataPractice = encodeURI(`${urlSheet}!C:C?access_token=${token}`);
-                let urlDataProvider = encodeURI(`${urlSheet}!E:E?access_token=${token}`);
-                let urlDataResource = encodeURI(`${urlSheet}!F:F?access_token=${token}`);
-                let urlDataResourceDemand = encodeURI(`${urlSheet}!G:G?access_token=${token}`);
-                let urlDataProcess = encodeURI(`${urlSheet}!I:I?access_token=${token}`);
-                let urlDataProduct = encodeURI(`${urlSheet}!K:K?access_token=${token}`);
-                let urlDataProductDemand = encodeURI(`${urlSheet}!L:L?access_token=${token}`);
-                let urlDataUser = encodeURI(`${urlSheet}!M:M?access_token=${token}`)
-                let urlDataUserDemand = encodeURI(`${urlSheet}!L:L?access_token=${token}`)
+                let urlDataMilestone = encodeURI(`${rg.urlSheet}!A:A?access_token=${token}`);
+                let urlDataPractice = encodeURI(`${rg.urlSheet}!C:C?access_token=${token}`);
+                let urlDataProvider = encodeURI(`${rg.urlSheet}!E:E?access_token=${token}`);
+                let urlDataResource = encodeURI(`${rg.urlSheet}!F:F?access_token=${token}`);
+                let urlDataResourceDemand = encodeURI(`${rg.urlSheet}!G:G?access_token=${token}`);
+                let urlDataProcess = encodeURI(`${rg.urlSheet}!I:I?access_token=${token}`);
+                let urlDataProduct = encodeURI(`${rg.urlSheet}!K:K?access_token=${token}`);
+                let urlDataProductDemand = encodeURI(`${rg.urlSheet}!L:L?access_token=${token}`);
+                let urlDataUser = encodeURI(`${rg.urlSheet}!M:M?access_token=${token}`)
+                let urlDataUserDemand = encodeURI(`${rg.urlSheet}!L:L?access_token=${token}`)
                 axios.get(urlDataProcess)
                     .then((response) => { responseData.dataProcess = response.data.values; })
                     .then(() => {
@@ -117,14 +120,14 @@ async function a() {
                             .then((response) => { responseData.dataUserDemand = response.data.values; })
                     })
                     .then(() => {
-                        axios.get(encodeURI(`${urlSheetColor}!A:A&access_token=${token}`))
+                        axios.get(encodeURI(`${rg.urlSheetColor}!A:A&access_token=${token}`))
                             .then((response) => {
                                 tempDataValueMilestone = response.data.sheets[0].data[0];
                                 responseData.colorValuesMilestone = getBackground(tempDataValueMilestone); //Цвет Вехов
                             })
                     })
                     .then(() => {
-                        axios.get(encodeURI(`${urlSheetColor}!I:I&access_token=${token}`))
+                        axios.get(encodeURI(`${rg.urlSheetColor}!I:I&access_token=${token}`))
                             .then((response) => {
                                 tempDataValueProcess = response.data.sheets[0].data[0];
                                 responseData.colorValuesProcess = getBackground(tempDataValueProcess); //Цвет Процесса

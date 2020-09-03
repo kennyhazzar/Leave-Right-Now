@@ -10,3 +10,4 @@ exports.distance = {
     },
     tshape: { x: null, y: null }
 };
+exports.token = 'https://api.miro.com/v1/boards/o9J_kp5pAx8=/widgets/';
