@@ -192,19 +192,9 @@ async function a() {
             else {
                 xx++;
                 countForShape++;
-                bmiro.sendData(requestData, murl, countForShape, ProcessTitleCount[ProcessTitleCount.length - 1], xx)
+                bmiro.sendData(requestData, murl, countForShape, ProcessTitleCount[ProcessTitleCount.length - 1], xx);
             }
-        }, 10000)
-
-
-
-
-
-
-
-
-
-
+        }, 10000);
     })
 }
 function componentToHex(c) {
@@ -221,7 +211,7 @@ function getBackground(tempData) {
             r = Math.floor(tempData.rowData[n].values[0].userEnteredFormat.backgroundColor.red * 255);
             g = Math.floor(tempData.rowData[n].values[0].userEnteredFormat.backgroundColor.green * 255);
             b = Math.floor(tempData.rowData[n].values[0].userEnteredFormat.backgroundColor.blue * 255);
-            if (rgbToHex(r, g, b) == '#NaNNaNNaN') { tempArray.push('#000000') }
+            if (rgbToHex(r, g, b) == '#NaNNaNNaN') { tempArray.push('#000000'); }
             else { tempArray.push(rgbToHex(r, g, b)); }
         }
         catch (error) { tempArray.push('#ffffff'); }
