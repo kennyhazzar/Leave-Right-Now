@@ -4,6 +4,7 @@ var fs = require('fs');
 var vmiro = require('./files/miroVariables.js');
 var bmiro = require('./files/sendData.js');
 const { resolve } = require('path');
+const { isUndefined } = require('util');
 //цвета для создания виджетов в Миро
 a();
 async function a() {
@@ -161,8 +162,10 @@ async function a() {
         var ProcessTitleCount = getTitlesCountsProcess(responseData.lastRow, SubProcessItem);
         SubProcessItem.MilestoneTitleCount.push(ProcessTitleCount[ProcessTitleCount.length - 1]);
         /* Start */
+        // console.log(SubProcessItem.isProcessBlank)
+        
+        // for(x = 0; x < 11; x++) { console.log(SubProcessItem.Name[x][0]); }
         var countForShape = 1;
-        var countForCoolDown = 1;
         for (x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++)//Перебор первого массива с титлами Вехов
         {
             requestData.toSendDataMilestone = SubProcessItem.MilestoneTitle[x];
@@ -182,6 +185,9 @@ async function a() {
                 }
             }
         }
+
+        // console.log(requestData.toSendDataProcess)
+        // fs.writeFileSync(requestData, './files/logRequestData.txt')
         countForShape = 1;
         var xx = -1;
         lrow = ProcessTitleCount[ProcessTitleCount.length - 1];
@@ -194,7 +200,7 @@ async function a() {
                 countForShape++;
                 bmiro.sendData(requestData, murl, countForShape, ProcessTitleCount[ProcessTitleCount.length - 1], xx);
             }
-        }, 10000);
+        }, 1250);
     })
 }
 function componentToHex(c) {

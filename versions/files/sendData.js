@@ -1,6 +1,15 @@
 var axios = require('axios');
 var qs = require('qs');
 var fs = require('fs');
+function toSendMiro(wdata, wconfig, xx) {
+    if (wdata[xx][0] != undefined
+        || wdata[xx][0] != null) {
+        axios(wconfig)
+            .then((response) => {
+                console.log(response.data.type, xx, wdata[xx][0]);
+            });
+    }
+}
 exports.sendData = (requestData, murl, countForShape, lrow, xx) => {
     var mvar = require('./miroVariables');
     DataBody = {
@@ -185,32 +194,86 @@ exports.sendData = (requestData, murl, countForShape, lrow, xx) => {
             data: DataBody.Provider
         }
     };
-        axios(mconfig.shape)
+    axios(mconfig.shape)
         .then((response) => {
             console.log(response.data.type, xx);
         });
-        axios(mconfig.practice)
-            .then((response) => {
-                console.log(response.data.type, xx);
-            });
-        axios(mconfig.provider)
-            .then((response) => {
-                console.log(response.data.type, xx);
-            });
-        axios(mconfig.resource)
-            .then((response) => {
-                console.log(response.data.type, xx);
-            });
-        axios(mconfig.process)
-            .then((response) => {
-                console.log(response.data.type, xx);
-            });
-        axios(mconfig.product)
-            .then((response) => {
-                console.log(response.data.type, xx);
-            });
-        axios(mconfig.user)
-            .then((response) => {
-                console.log(response.data.type, xx);
-            });
+        toSendMiro(requestData.toSendDataPractice, mconfig.practice, xx);
+        toSendMiro(requestData.toSendDataProvider, mconfig.provider, xx);
+        toSendMiro(requestData.toSendDataResource, mconfig.resource, xx);
+        toSendMiro(requestData.toSendDataProcess, mconfig.process, xx);
+        toSendMiro(requestData.toSendDataProduct, mconfig.product, xx);
+        toSendMiro(requestData.toSendDataUser, mconfig.user, xx);
+
+    // if (requestData.toSendDataPractice[xx][0] != undefined
+    //     || requestData.toSendDataPractice[xx][0] != null) {
+    //     axios(mconfig.practice)
+    //         .then((response) => {
+    //             console.log(response.data.type, xx, requestData.toSendDataPractice[xx][0]);
+    //         })
+    // }
+    // if (requestData.toSendDataPractice[xx][0] != undefined
+    //     || requestData.toSendDataProvider[xx][0] != null) {
+    //     axios(mconfig.provider)
+    //         .then((response) => {
+    //             console.log(response.data.type, xx, requestData.toSendDataProvider[xx][0]);
+    //         })
+    // }
+    // if (requestData.toSendDataResource[xx][0] != undefined
+    //     || requestData.toSendDataResource[xx][0] != null) {
+    //     axios(mconfig.resource)
+    //         .then((response) => {
+    //             console.log(response.data.type, xx, requestData.toSendDataResource[xx][0]);
+    //         })
+    // }
+    // if (requestData.toSendDataProcess[xx][0] != undefined
+    //     || requestData.toSendDataProcess[xx][0] != null) {
+    //     axios(mconfig.process)
+    //         .then((response) => {
+    //             console.log(response.data.type, xx, requestData.toSendDataProcess[xx][0]);
+    //         })
+    // }
+    // if (requestData.toSendDataProduct[xx][0] != undefined
+    //     || requestData.toSendDataProduct[xx][0] != null) {
+    //     axios(mconfig.product)
+    //         .then((response) => {
+    //             console.log(response.data.type, xx, requestData.toSendDataProduct[xx][0]);
+    //         })
+    // }
+    // if (requestData.toSendDataUser[xx][0] != undefined
+    //     || requestData.toSendDataUser[xx][0] != null) {
+    //     axios(mconfig.user)
+    //         .then((response) => {
+    //             console.log(response.data.type, xx, requestData.toSendDataUser[xx][0]);
+    //         })
+    // }
+    // axios(mconfig.shape)
+    // .then((response) => {
+    //     console.log(response.data.type, xx);
+    // });
+    // axios(mconfig.practice)
+    //     .then((response) => {
+    //         console.log(response.data.type, xx);
+    //     });
+    // axios(mconfig.provider)
+    //     .then((response) => {
+    //         console.log(response.data.type, xx);
+    //     });
+    // axios(mconfig.resource)
+    //     .then((response) => {
+    //         console.log(response.data.type, xx);
+    //     });
+    // axios(mconfig.process)
+    //     .then((response) => {
+    //         console.log(response.data.type, xx);
+    //     });
+    // axios(mconfig.product)
+    //     .then((response) => {
+    //         console.log(response.data.type, xx);
+    //     });
+    // axios(mconfig.user)
+    //     .then((response) => {
+    //         console.log(response.data.type, xx);
+    //     });
+
 }
