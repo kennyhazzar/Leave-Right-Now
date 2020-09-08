@@ -1,14 +1,10 @@
 var axios = require('axios');
 var qs = require('qs');
 var fs = require('fs');
-const { isIPv4 } = require('net');
-const { runInThisContext } = require('vm');
-// var Miro = require('./files/')
 var vmiro = require('./files/miroVariables.js');
-var bmiro = require('./files/miroBody.js');
+var bmiro = require('./files/sendData.js');
 const { resolve } = require('path');
 //цвета для создания виджетов в Миро
-
 a();
 async function a() {
     //\\
@@ -33,16 +29,16 @@ async function a() {
     //\\
     var requestData =
     {
-        toSendDataMilestone: undefined,
-        toSendDataProcess: undefined,
-        toSendDataPractice: undefined,
-        toSendDataProvider: undefined,
-        toSendDataResource: undefined,
-        toSendDataResourceDemand: undefined,
-        toSendDataProduct: undefined,
-        toSendDataProductDemand: undefined,
-        toSendDataUserDemand: undefined,
-        toSendDataUser: undefined
+        toSendDataMilestone: [],
+        toSendDataProcess: [],
+        toSendDataPractice: [],
+        toSendDataProvider: [],
+        toSendDataResource: [],
+        toSendDataResourceDemand: [],
+        toSendDataProduct: [],
+        toSendDataProductDemand: [],
+        toSendDataUserDemand: [],
+        toSendDataUser: []
     }
     var rg = //request Google
     {
@@ -58,7 +54,6 @@ async function a() {
         'grant_type': 'refresh_token',
         'refresh_token': `${rg.google_refresh_token}`
     });
-
     var token_config = {
         method: 'post',
         url: rg.urlToken,
@@ -68,33 +63,6 @@ async function a() {
         },
         data: data
     };
-    var mconfig =
-    {
-        shape: {
-            method: 'post',
-            url: murl,
-            headers: { 'authorization': `${vmiro.token}` },
-            data: bmiro.DataBody.Shape
-        },
-        user: {
-            method: 'post',
-            url: murl,
-            headers: { 'authorization': `${vmiro.token}` },
-            data: bmiro.DataBody.User
-        },
-        product: {
-            method: 'post',
-            url: murl,
-            headers: { 'authorization': `${vmiro.token}` },
-            data: bmiro.DataBody.Product
-        },
-        process: {
-            method: 'post',
-            url: murl,
-            headers: { 'authorization': `${vmiro.token}` },
-            data: bmiro.DataBody.Process
-        }
-    }
     //Создание промиса для асинхронного выполнения кода
     var mainPromise = new Promise((resolve, reject) => {
         axios(token_config)//POST-запрос на получение токена для последующих GET-запросов
@@ -191,15 +159,10 @@ async function a() {
             MilestoneTitle: milestoneTitle(responseData.dataMilestone, responseData.lastRow)
         }
         var ProcessTitleCount = getTitlesCountsProcess(responseData.lastRow, SubProcessItem);
-        // var ProcessTitle = getTitlesProcess(responseData.lastRow, SubProcessItem);
         SubProcessItem.MilestoneTitleCount.push(ProcessTitleCount[ProcessTitleCount.length - 1]);
-        console.log(SubProcessItem.MilestoneTitleCount)
-        // var ProcessTitleCountEnd = getTitlesCountsProcessOnlyEnd(lastRow, SubProcessItem);
-
         /* Start */
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
+        var countForShape = 1;
+        var countForCoolDown = 1;
         for (x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++)//Перебор первого массива с титлами Вехов
         {
             requestData.toSendDataMilestone = SubProcessItem.MilestoneTitle[x];
@@ -209,18 +172,29 @@ async function a() {
                     && ProcessTitleCount[y + 1] <= SubProcessItem.MilestoneTitleCount[x + 1]) {
                     for (let z = ProcessTitleCount[y] + 1; z < ProcessTitleCount[y + 1]; z++) //Перебор одного блока массива
                     {
-                        if (SubProcessItem.isProcessBlank[z] != null || SubProcessItem.isProcessBlank[z] != undefined) {
-                            // console.log(SubProcessItem.Name[z], x, y, z);
-                            function foo(){axios(mconfig.shape)
-                                .then((response) => {
-                                    vmiro.countForShape++
-                                })}
-                            setTimeout(foo, 2000)
-                        }
+                        requestData.toSendDataProcess.push(SubProcessItem.Name[z]);
+                        requestData.toSendDataPractice.push(SubProcessItem.Practice[z]);
+                        requestData.toSendDataProvider.push(SubProcessItem.Provider[z]);
+                        requestData.toSendDataResource.push(SubProcessItem.Resource[z]);
+                        requestData.toSendDataProduct.push(SubProcessItem.Product[z]);
+                        requestData.toSendDataUser.push(SubProcessItem.User[z]);
                     }
                 }
             }
         }
+        countForShape = 1;
+        var xx = -1;
+        lrow = ProcessTitleCount[ProcessTitleCount.length - 1];
+        var ivl = setInterval(() => {
+            if (xx > lrow) {
+                clearInterval(ivl);
+            }
+            else {
+                xx++;
+                countForShape++;
+                bmiro.sendData(requestData, murl, countForShape, ProcessTitleCount[ProcessTitleCount.length - 1], xx)
+            }
+        }, 10000)
 
 
 

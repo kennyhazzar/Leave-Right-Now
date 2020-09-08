@@ -1,7 +1,7 @@
 exports.distance = {
     checkpoint: 1000, //x
     widget: 120, //y
-    fshape: { x: 0, y: 0 },/*first shape*/
+    fshape: { x: 1, y: 1 },/*first shape*/
     pmilestone: { x: null, y: null },/*optional */
     stsign: /*координаты для работы с User (Пользователь) снизу и Provider (Поставщик)*/
     {
