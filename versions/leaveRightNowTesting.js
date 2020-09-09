@@ -163,7 +163,7 @@ async function a() {
         SubProcessItem.MilestoneTitleCount.push(ProcessTitleCount[ProcessTitleCount.length - 1]);
         /* Start */
         // console.log(SubProcessItem.isProcessBlank)
-        
+
         // for(x = 0; x < 11; x++) { console.log(SubProcessItem.Name[x][0]); }
         var countForShape = 1;
         for (x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++)//Перебор первого массива с титлами Вехов
@@ -188,9 +188,11 @@ async function a() {
 
         // console.log(requestData.toSendDataProcess)
         // fs.writeFileSync(requestData, './files/logRequestData.txt')
-        countForShape = 1;
+        var countForMilestone = -1;
+        var countForShape = 1;
         var xx = -1;
-        lrow = ProcessTitleCount[ProcessTitleCount.length - 1];
+        var lrow = ProcessTitleCount[ProcessTitleCount.length - 1];
+        console.log(lrow);
         var ivl = setInterval(() => {
             if (xx > lrow) {
                 clearInterval(ivl);
@@ -198,9 +200,17 @@ async function a() {
             else {
                 xx++;
                 countForShape++;
-                bmiro.sendData(requestData, murl, countForShape, ProcessTitleCount[ProcessTitleCount.length - 1], xx);
+                console.log(xx, countForShape);
+                if (SubProcessItem.MilestoneTitleCount.indexOf(xx) != -1) {
+                    countForMilestone++;
+                    countForShape = 2;
+                    console.log("DASD", countForMilestone, countForShape);
+                }
+                bmiro.sendData(requestData, murl, countForShape,
+                    ProcessTitleCount[ProcessTitleCount.length - 1], xx, countForMilestone);
+                
             }
-        }, 1250);
+        }, vmiro.rspeed.low);
     })
 }
 function componentToHex(c) {

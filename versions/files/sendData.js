@@ -1,22 +1,24 @@
 var axios = require('axios');
 var qs = require('qs');
 var fs = require('fs');
+const { resolve } = require('path');
+const { rejects } = require('assert');
 function toSendMiro(wdata, wconfig, xx) {
-    if (wdata[xx][0] != undefined
-        || wdata[xx][0] != null) {
-        axios(wconfig)
-            .then((response) => {
-                console.log(response.data.type, xx, wdata[xx][0]);
+    try {
+        if (wdata[xx][0] != undefined || wdata[xx][0] != null) {
+            axios(wconfig).then((response) => { //console.log(response.data.type, xx, wdata[xx][0], response.data.id);
             });
-    }
+        }
+    } catch (err) { }
 }
-exports.sendData = (requestData, murl, countForShape, lrow, xx) => {
+exports.sendData = (requestData, murl, countForShape, lrow, xx, countForMilestone) => {
     var mvar = require('./miroVariables');
-    DataBody = {
+    var mdist = mvar.distance.fshape.y;
+    var DataBody = {
         Shape: {
             "type": "shape",
             "x": mvar.distance.fshape.x + mvar.distance.checkpoint * countForShape,
-            "y": mvar.distance.fshape.y,
+            "y": mdist + countForMilestone * mvar.distance.dymilestone,
             "width": 34,
             "rotation": 0.0,
             "height": 36,
@@ -35,7 +37,7 @@ exports.sendData = (requestData, murl, countForShape, lrow, xx) => {
         Practice: {
             "type": "text",
             "x": mvar.distance.fshape.x + mvar.distance.checkpoint * countForShape,
-            "y": mvar.distance.fshape.y + mvar.distance.widget,
+            "y": mdist + countForMilestone * mvar.distance.dymilestone + mvar.distance.widget,
             "width": 98.7,
             "style": {
                 "backgroundColor": mvar.Color.HEX.Practice,
@@ -55,7 +57,7 @@ exports.sendData = (requestData, murl, countForShape, lrow, xx) => {
         Provider: {
             "type": "text",
             "x": mvar.distance.fshape.x + mvar.distance.checkpoint * countForShape,
-            "y": mvar.distance.fshape.y - mvar.distance.widget * 3,
+            "y": mdist + countForMilestone * mvar.distance.dymilestone - mvar.distance.widget * 3,
             "width": 98.7,
             "style": {
                 // fef445 yellow if lime is bad
@@ -75,7 +77,7 @@ exports.sendData = (requestData, murl, countForShape, lrow, xx) => {
         Resource: {
             "type": "text",
             "x": mvar.distance.fshape.x + mvar.distance.checkpoint * countForShape,
-            "y": mvar.distance.fshape.y - mvar.distance.widget * 2,
+            "y": mdist + countForMilestone * mvar.distance.dymilestone - mvar.distance.widget * 2,
             "width": 98.7,
             "style": {
                 "backgroundColor": mvar.Color.HEX.Resource,
@@ -94,7 +96,7 @@ exports.sendData = (requestData, murl, countForShape, lrow, xx) => {
         Process: {
             "type": "text",
             "x": mvar.distance.fshape.x + mvar.distance.checkpoint * countForShape,
-            "y": mvar.distance.fshape.y - mvar.distance.widget,
+            "y": mdist + countForMilestone * mvar.distance.dymilestone - mvar.distance.widget,
             "width": 98.7,
             "style": {
                 "backgroundColor": mvar.Color.HEX.Process,
@@ -113,7 +115,7 @@ exports.sendData = (requestData, murl, countForShape, lrow, xx) => {
         Product: {
             "type": "text",
             "x": mvar.distance.fshape.x + mvar.distance.checkpoint * countForShape,
-            "y": mvar.distance.fshape.y + mvar.distance.widget * 2,
+            "y": mdist + countForMilestone * mvar.distance.dymilestone + mvar.distance.widget * 2,
             "width": 98.7,
             "style": {
                 "backgroundColor": mvar.Color.HEX.Product,
@@ -132,7 +134,7 @@ exports.sendData = (requestData, murl, countForShape, lrow, xx) => {
         User: {
             "type": "text",
             "x": mvar.distance.fshape.x + mvar.distance.checkpoint * countForShape,
-            "y": mvar.distance.fshape.y + mvar.distance.widget * 3,
+            "y": mdist + countForMilestone * mvar.distance.dymilestone + mvar.distance.widget * 3,
             "width": 98.7,
             "style": {
                 "backgroundColor": mvar.Color.HEX.User,
@@ -194,12 +196,13 @@ exports.sendData = (requestData, murl, countForShape, lrow, xx) => {
             data: DataBody.Provider
         }
     };
-    axios(mconfig.shape)
-        .then((response) => {
-            console.log(response.data.type, xx);
-        });
+        axios(mconfig.shape)
+            .then((response) => {
+                mid = response.data.id;
+                console.log(response.data.type, xx);
+            });
         toSendMiro(requestData.toSendDataPractice, mconfig.practice, xx);
-        toSendMiro(requestData.toSendDataProvider, mconfig.provider, xx);
+        toSendMiro(requestData.toSendDataProvider, mconfig.provider, xx);;
         toSendMiro(requestData.toSendDataResource, mconfig.resource, xx);
         toSendMiro(requestData.toSendDataProcess, mconfig.process, xx);
         toSendMiro(requestData.toSendDataProduct, mconfig.product, xx);
