@@ -3,21 +3,47 @@ var qs = require('qs');
 var fs = require('fs');
 const { resolve } = require('path');
 const { rejects } = require('assert');
-function toSendMiro(wdata, wconfig, xx) {
-    try {
-        if (wdata[xx][0] != undefined || wdata[xx][0] != null) {
-            axios(wconfig).then((response) => { //console.log(response.data.type, xx, wdata[xx][0], response.data.id);
-            });
-        }
-    } catch (err) { }
+function toSendMiro(wdata, wconfig, xx, id1) {
+        try {
+            if (wdata[xx][0] != undefined || wdata[xx][0] != null) {
+                axios(wconfig).then((response) => {
+                    id1 = response.data.id;
+                    //console.log(response.data.type, xx, wdata[xx][0], response.data.id);
+                });
+            }
+        } catch (err) { }
 }
-exports.sendData = (requestData, murl, countForShape, lrow, xx, countForMilestone) => {
+exports.sendData = (requestData, murl, countForShape, lrow, xx, countForMilestone, SubProcessItem) => {
+    var mid1;
+    var mid2;
+    var wid1;
+    var wid2;
+    var what;
     var mvar = require('./miroVariables');
     var mdist = mvar.distance.fshape.y;
     var DataBody = {
         Shape: {
             "type": "shape",
             "x": mvar.distance.fshape.x + mvar.distance.checkpoint * countForShape,
+            "y": mdist + countForMilestone * mvar.distance.dymilestone,
+            "width": 34,
+            "rotation": 0.0,
+            "height": 36,
+            "text": "",
+            "style": {
+                "backgroundColor": mvar.Color.HEX.CheckPointShape,
+                "backgroundOpacity": 1.0,
+                "borderColor": mvar.Color.HEX.CheckPointShape,
+                "borderOpacity": 1.0,
+                "borderStyle": "normal",
+                "borderWidth": 4,
+                "shapeType": "circle"
+            }
+
+        },
+        SecondShape: {
+            "type": "shape",
+            "x": mvar.distance.fshape.x + mvar.distance.checkpoint * countForShape + mvar.distance.checkpoint,
             "y": mdist + countForMilestone * mvar.distance.dymilestone,
             "width": 34,
             "rotation": 0.0,
@@ -194,17 +220,88 @@ exports.sendData = (requestData, murl, countForShape, lrow, xx, countForMileston
             url: murl,
             headers: { 'authorization': `${mvar.token}` },
             data: DataBody.Provider
-        }
+        },
+        sshape: {
+            method: 'post',
+            url: murl,
+            headers: { 'authorization': `${mvar.token}` },
+            data: DataBody.SecondShape
+        },
     };
-        axios(mconfig.shape)
-            .then((response) => {
-                mid = response.data.id;
-                console.log(response.data.type, xx);
-            });
-        toSendMiro(requestData.toSendDataPractice, mconfig.practice, xx);
-        toSendMiro(requestData.toSendDataProvider, mconfig.provider, xx);;
-        toSendMiro(requestData.toSendDataResource, mconfig.resource, xx);
-        toSendMiro(requestData.toSendDataProcess, mconfig.process, xx);
-        toSendMiro(requestData.toSendDataProduct, mconfig.product, xx);
-        toSendMiro(requestData.toSendDataUser, mconfig.user, xx);
+    var aLine;
+    var line;
+    axios(mconfig.shape)
+        .then((response) => {
+            mid1 = response.data.id;
+            console.log(response.data.type, xx);
+        })
+        .then(() => {
+            axios(mconfig.sshape)
+                .then((response) => {
+                    mid2 = response.data.id;
+                    aLine = {
+                        "type": "line",
+                        "startWidget": {
+                            "id": `${mid1}`
+                        },
+                        "endWidget": {
+                            "id": `${mid2}`
+                        },
+                        "style": {
+                            "borderColor": "#414bb2",
+                            "borderStyle": "normal",
+                            "borderWidth": 2.0,
+                            "lineEndType": "opaque_block",
+                            "lineStartType": "opaque_circle",
+                            "lineType": "straight"
+                        }
+                    };
+                    line = {
+                        method: 'post',
+                        url: murl,
+                        headers: { 'authorization': `${mvar.token}` },
+                        data: aLine
+                    };
+                    return line
+                })
+                .then(() => {
+                    axios(line)
+                        .then(() => {
+                            console.log('then ', aLine.startWidget.id)
+                            console.log('then ', aLine.endWidget.id)
+                        })
+                })
+        })
+    // Поставщик и Пользователь СОЕДЕНИТЬ ЛИНИЕЙ (provider, user)
+
+
+    var wpromise = new Promise((resolve, reject) => {
+        toSendMiro(requestData.toSendDataPractice, mconfig.practice, xx, what);
+        toSendMiro(requestData.toSendDataResource, mconfig.resource, xx, what);
+        toSendMiro(requestData.toSendDataProcess, mconfig.process, xx, what);
+        resolve(toSendMiro(requestData.toSendDataProduct, mconfig.product, xx, what));
+    });
+    wpromise.then(() => {
+        wid1 = toSendMiro(requestData.toSendDataProvider, mconfig.provider, xx, what);
+        wid2 = toSendMiro(requestData.toSendDataUser, mconfig.user, xx, what);
+        console.log(wid1, wid2);
+        var dline = {
+            "type": "line",
+            "startWidget": {
+                "id": `${wid1}`
+            },
+            "endWidget": {
+                "id": `${wid2}`
+            },
+            "style": {
+                "borderColor": "#808080",
+                "borderStyle": "dashed",
+                "borderWidth": 2.0,
+                "lineEndType": "none",
+                "lineStartType": "none",
+                "lineType": "straight"
+            }
+        };
+
+    })
 }

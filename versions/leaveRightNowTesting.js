@@ -43,6 +43,8 @@ async function a() {
     }
     var rg = //request Google
     {
+        tid: '12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI',
+        sid: 'SIPOC (для Miro)',
         urlSheetColor: 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI?includeGridData=true&ranges=SIPOC (для Miro)',
         urlSheet: 'https://sheets.googleapis.com/v4/spreadsheets/12_1YRHmFzCQMJb4D5oAQqxd3-y-mkaM82RPlRv5XmPI/values/SIPOC (для Miro)',
         google_refresh_token: '1//0c-HAMQqviQPXCgYIARAAGAwSNwF-L9IrxwXh5A9PWgDu8gBYxVkMuGnpPz9MD-d0PgUyLf5qRnncSd-fTqYrvjFuIjzT8MxEYk0',
@@ -141,6 +143,7 @@ async function a() {
     });//Промис закончился
     //Тут можно исполнять код после того, как код в вышеупомянутом промисе окончил свою работу
     mainPromise.then(() => {
+        console.log(`Загрузка таблицы ${rg.tid} с листа ${rg.sid} прошла успешно.`)
         var SubProcessItem =
         {
             Name: responseData.dataProcess,
@@ -161,9 +164,11 @@ async function a() {
         }
         var ProcessTitleCount = getTitlesCountsProcess(responseData.lastRow, SubProcessItem);
         SubProcessItem.MilestoneTitleCount.push(ProcessTitleCount[ProcessTitleCount.length - 1]);
+        console.log('Структура сформирована.');
+        var tt = getTitlesCountsProcessOnlyEnd(responseData.lastRow, SubProcessItem);
+        console.log(tt[tt.length - 1]);
         /* Start */
         // console.log(SubProcessItem.isProcessBlank)
-
         // for(x = 0; x < 11; x++) { console.log(SubProcessItem.Name[x][0]); }
         var countForShape = 1;
         for (x = 0; x < SubProcessItem.MilestoneTitleCount.length - 1; x++)//Перебор первого массива с титлами Вехов
@@ -185,7 +190,7 @@ async function a() {
                 }
             }
         }
-
+       
         // console.log(requestData.toSendDataProcess)
         // fs.writeFileSync(requestData, './files/logRequestData.txt')
         var countForMilestone = -1;
@@ -207,10 +212,10 @@ async function a() {
                     console.log("DASD", countForMilestone, countForShape);
                 }
                 bmiro.sendData(requestData, murl, countForShape,
-                    ProcessTitleCount[ProcessTitleCount.length - 1], xx, countForMilestone);
+                    ProcessTitleCount[ProcessTitleCount.length - 1], xx, countForMilestone, SubProcessItem);
                 
             }
-        }, vmiro.rspeed.low);
+        }, vmiro.rspeed.wstandart);
     })
 }
 function componentToHex(c) {
@@ -282,3 +287,10 @@ function getTitlesCountsProcessOnlyEnd(lastRow, SubProcessItem) {
     }
     return tempArray;
 }
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+  }
